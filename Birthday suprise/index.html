@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 42nd Birthday, Mom!</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;600;700&display=swap');
+
+    :root {
+      --envelope-blue: #1e293b;       /* Elegant Royal Dark Slate */
+      --envelope-back: #0f172a;       /* Deeper Navy Shadow */
+      --envelope-flap: #2563eb;       /* Rich Sapphire Accent */
+      --card-bg: #ffffff;
+      --heading-color: #1e3a8a;     /* Sophisticated Dark Blue */
+      --text-color: #334155;
+      --gold-accent: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      /* Multi-color mesh gradient (Indigo, Royal Blue, Dusk Violet) */
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 35%, #31103f 70%, #1e293b 100%);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glowing Orbs behind the Glass */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { top: 10%; left: 15%; width: 300px; height: 300px; background: rgba(37, 99, 235, 0.4); }
+    .orb-2 { bottom: 10%; right: 15%; width: 350px; height: 350px; background: rgba(168, 85, 247, 0.3); }
+
+    /* --- Falling Snow & Hearts Particle System --- */
+    .particles-layer {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      top: -5%;
+      opacity: 0;
+      animation: floatDown linear infinite;
+    }
+
+    /* Snow Crystals */
+    .p-snow {
+      color: #ffffff;
+      font-size: 14px;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Glowing Dots */
+    .p-dot {
+      width: 6px; height: 6px;
+      background: #fde047;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #fde047, 0 0 20px #eab308;
+    }
+
+    /* Floating Hearts */
+    .p-heart {
+      color: #f43f5e;
+      font-size: 14px;
+      text-shadow: 0 0 8px rgba(244, 63, 94, 0.7);
+    }
+
+    @keyframes floatDown {
+      0% { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.9; }
+      100% { transform: translateY(110vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    /* Scattered timings across screen */
+    .p1 { left: 3%;  animation-duration: 7s;  animation-delay: 0s; }
+    .p2 { left: 9%;  animation-duration: 9s;  animation-delay: 1.5s; }
+    .p3 { left: 15%; animation-duration: 6s;  animation-delay: 0.5s; }
+    .p4 { left: 22%; animation-duration: 10s; animation-delay: 3s; }
+    .p5 { left: 28%; animation-duration: 8s;  animation-delay: 1s; }
+    .p6 { left: 35%; animation-duration: 7s;  animation-delay: 2.5s; }
+    .p7 { left: 41%; animation-duration: 11s; animation-delay: 0.2s; }
+    .p8 { left: 48%; animation-duration: 8s;  animation-delay: 2s; }
+    .p9 { left: 54%; animation-duration: 9s;  animation-delay: 1.2s; }
+    .p10{ left: 61%; animation-duration: 7s;  animation-delay: 3.5s; }
+    .p11{ left: 67%; animation-duration: 10s; animation-delay: 0.7s; }
+    .p12{ left: 74%; animation-duration: 8s;  animation-delay: 2.2s; }
+    .p13{ left: 80%; animation-duration: 9s;  animation-delay: 4s; }
+    .p14{ left: 86%; animation-duration: 6s;  animation-delay: 1.8s; }
+    .p15{ left: 92%; animation-duration: 11s; animation-delay: 0.3s; }
+
+    /* --- Glassmorphism Stage Container --- */
+    .glass-card-stage {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      padding: 50px 60px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 35px;
+    }
+
+    /* --- Envelope & Card Unit --- */
+    .card-container {
+      position: relative;
+      width: 440px;
+      height: 300px;
+      perspective: 1000px;
+    }
+
+    /* Side Flowers Attached Behind Envelope */
+    .blooming-flowers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .flower {
+      position: absolute;
+      font-size: 55px;
+      transition: all 1s ease-in-out;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    /* Left & Right floral arrangements */
+    .fl-left-1 { top: 10px; left: -50px; transform: rotate(-25deg); }
+    .fl-left-2 { top: 90px; left: -65px; transform: rotate(-45deg); font-size: 45px; }
+    .fl-right-1 { top: 10px; right: -50px; transform: rotate(25deg); }
+    .fl-right-2 { top: 90px; right: -65px; transform: rotate(45deg); font-size: 45px; }
+
+    /* Envelope Base Pocket */
+    .envelope {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--envelope-blue);
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+      z-index: 3;
+      overflow: hidden;
+    }
+
+    /* Inner fold pockets */
+    .envelope::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 220px solid var(--envelope-back);
+      border-top: 150px solid transparent;
+      border-bottom: 150px solid var(--envelope-back);
+      z-index: 3;
+    }
+
+    .envelope::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 0;
+      border-right: 220px solid var(--envelope-back);
+      border-top: 150px solid transparent;
+      border-bottom: 150px solid var(--envelope-back);
+      z-index: 3;
+    }
+
+    /* MOM Cursive Signature */
+    .mom-title {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.2rem;
+      color: #38bdf8; /* Soft cyan glowing accent */
+      text-shadow: 0 2px 10px rgba(56, 189, 248, 0.4);
+      z-index: 4;
+    }
+
+    /* Top Flap */
+    .flap {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-left: 220px solid transparent;
+      border-right: 220px solid transparent;
+      border-top: 160px solid var(--envelope-flap);
+      transform-origin: top;
+      transition: transform 0.8s ease-in-out, z-index 0.3s;
+      z-index: 4;
+    }
+
+    /* Letter inside */
+    .letter-card {
+      position: absolute;
+      bottom: 15px;
+      left: 25px;
+      width: 390px;
+      height: 270px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+    }
+
+    .letter-card h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .letter-card p {
+      font-size: 1rem;
+      color: var(--text-color);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* --- Glowing Trigger Button --- */
+    .glow-btn {
+      padding: 16px 44px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.6);
+      transition: all 0.3s ease;
+      animation: buttonPulse 2.5s infinite;
+      z-index: 10;
+    }
+
+    .glow-btn:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 35px rgba(37, 99, 235, 0.9);
+    }
+
+    @keyframes buttonPulse {
+      0% { box-shadow: 0 0 15px rgba(37, 99, 235, 0.5); }
+      50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.9); }
+      100% { box-shadow: 0 0 15px rgba(37, 99, 235, 0.5); }
+    }
+
+    /* --- OPENED STATE ANIMATIONS --- */
+    .card-container.opened .flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .card-container.opened .letter-card {
+      transform: translateY(-210px);
+      z-index: 5;
+      opacity: 1;
+    }
+
+    .card-container.opened .fl-left-1 { transform: translate(-15px, -20px) rotate(-35deg); }
+    .card-container.opened .fl-right-1 { transform: translate(15px, -20px) rotate(35deg); }
+
+    .glass-card-stage.opened .glow-btn {
+      display: none;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 520px) {
+      .glass-card-stage { padding: 30px 20px; border-radius: 16px; }
+      .card-container { width: 310px; height: 210px; }
+      .flap { border-left-width: 155px; border-right-width: 155px; border-top-width: 115px; }
+      .envelope::before { border-left-width: 155px; border-top-width: 105px; border-bottom-width: 105px; }
+      .envelope::after { border-right-width: 155px; border-top-width: 105px; border-bottom-width: 105px; }
+      .letter-card { width: 270px; height: 200px; left: 20px; padding: 15px; }
+      .letter-card h1 { font-size: 1.3rem; }
+      .letter-card p { font-size: 0.85rem; }
+      .card-container.opened .letter-card { transform: translateY(-135px); }
+      .mom-title { font-size: 2.2rem; bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Orbs -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <!-- Falling Particles: Snow, Hearts, & Gold Dots -->
+  <div class="particles-layer">
+    <div class="particle p-snow p1">❄</div>
+    <div class="particle p-heart p2">💖</div>
+    <div class="particle p-dot p3"></div>
+    <div class="particle p-snow p4">❄</div>
+    <div class="particle p-heart p5">🌸</div>
+    <div class="particle p-dot p6"></div>
+    <div class="particle p-snow p7">❄</div>
+    <div class="particle p-heart p8">💕</div>
+    <div class="particle p-dot p9"></div>
+    <div class="particle p-snow p10">❄</div>
+    <div class="particle p-heart p11">💖</div>
+    <div class="particle p-dot p12"></div>
+    <div class="particle p-snow p13">❄</div>
+    <div class="particle p-heart p14">🌸</div>
+    <div class="particle p-dot p15"></div>
+  </div>
+
+  <!-- Glassmorphism Container Stage -->
+  <div class="glass-card-stage" id="glassStage">
+
+    <div class="card-container" id="cardContainer">
+      
+      <!-- Side Blooming Flowers -->
+      <div class="blooming-flowers">
+        <span class="flower fl-left-1">🌺</span>
+        <span class="flower fl-left-2">🪻</span>
+        <span class="flower fl-right-1">🌸</span>
+        <span class="flower fl-right-2">🌷</span>
+      </div>
+
+      <!-- Blue Envelope Pocket -->
+      <div class="envelope">
+        <div class="mom-title">Mom</div>
+      </div>
+
+      <!-- Flap -->
+      <div class="flap"></div>
+
+      <!-- Card Inside -->
+      <div class="letter-card">
+        <h1>HAPPY BIRTHDAY<br>MOM! 💐</h1>
+        <p>
+May God bless you abundantly, keep you in perfect health, fill your heart with joy, and grant you many more beautiful years. Have a wonderful birthday!! 💕</p>
+      </div>
+
+    </div>
+
+    <!-- Glowing Action Button -->
+    <button class="glow-btn" id="openBtn">Open Your Surprise ✨</button>
+
+  </div>
+
+  <!-- Background Music Track -->
+  <audio id="bgMusic" loop>
+    <source src="/Stivie_Wonder_-_Isn_t_She_Lovely_(mp3.pm).mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const openBtn = document.getElementById('openBtn');
+    const cardContainer = document.getElementById('cardContainer');
+    const glassStage = document.getElementById('glassStage');
+    const bgMusic = document.getElementById('bgMusic');
+
+    openBtn.addEventListener('click', function() {
+      cardContainer.classList.add('opened');
+      glassStage.classList.add('opened');
+
+      bgMusic.play().catch(error => {
+        console.log("Add 'music.mp3' in the same folder to activate auto-play on click!");
+      });
+    });
+  </script>
+
+</body>
+</html>
