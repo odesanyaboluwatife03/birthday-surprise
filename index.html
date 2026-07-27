@@ -204,6 +204,24 @@
       z-index: 4;
     }
 
+    /* Container for photos inside the card */
+.card-photos {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+/* Make photos small and rounded inside the card */
+.card-photos img {
+  width: 45%;
+  max-width: 140px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  object-fit: cover;
+}
+
     /* Top Flap */
     .flap {
       position: absolute;
@@ -358,6 +376,9 @@
         <div class="mom-title">Mummy</div>
       </div>
 
+    
+</div>
+
       <!-- Flap -->
       <div class="flap"></div>
 
@@ -369,6 +390,13 @@
 May God bless you abundantly, keep you in perfect health, fill your heart with joy, and grant you many more beautiful years. Have a wonderful birthday!! 💕</p>
       </div>
 
+      <!-- ADD BOTH IMAGES INSIDE THE CARD HERE -->
+  <div class="card-photos">
+    <img src="./image/WhatsApp Image 2026-07-27 at 09.00.28 (1).jpeg">
+    <img src="./image/WhatsApp Image 2026-07-27 at 09.00.28 (1).jpeg">
+  </div>
+</div>
+
     </div>
 
     <!-- Glowing Action Button -->
@@ -376,10 +404,16 @@ May God bless you abundantly, keep you in perfect health, fill your heart with j
 
   </div>
 
+<<<<<<< HEAD
  
+=======
+  <!-- Background Music Track -->
+
+>>>>>>> 3b7f8705d80098a41a501fc0bd58b379f15b04a9
   <audio id="bgMusic" loop controls>
     <source src="./Stivie_Wonder_-_Isn_t_She_Lovely_(mp3.pm).mp3"control type="audio/mpeg">
   </audio>
+
 
   <script>
     const openBtn = document.getElementById('openBtn');
